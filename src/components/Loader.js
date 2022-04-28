@@ -90,7 +90,7 @@ const Content = styled.div`
 
 const Loader = () => {
   return (
-    <li>
+    <div>
       <Content>
         <div></div>
         <div></div>
@@ -101,7 +101,7 @@ const Loader = () => {
         <div></div>
         <div></div>
       </Content>
-    </li>
+    </div>
   );
 };
 
