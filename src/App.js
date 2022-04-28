@@ -4,6 +4,7 @@ import styled from "styled-components";
 import "./App.css";
 import Input from "./components/Input";
 import Loader from "./components/Loader";
+import UserCard from "./components/UserCard";
 
 function App() {
   // API content soon™
@@ -22,8 +23,12 @@ function App() {
         .includes(searchKey.toLowerCase())
     );
 
-    // sets filtered data
     setFilteredData(searchResults);
+
+    // sets filtered data based on search results
+    searchResults.length !== 0
+      ? setFilteredData(searchResults)
+      : setFilteredData(null);
   };
 
   const callUsers = async () => {
@@ -51,41 +56,21 @@ function App() {
         />
       </Container>
       <Container>
-        <ul style={{ listStyleType: "none" }}>
-          {filteredData ? (
-            filteredData.map((user) => (
-              <li style={{ marginBottom: "1rem" }} key={user.id}>
-                <div>
-                  <img src={user.avatar} alt='' />
-                </div>
-                <div>{user.email}</div>
-                <div>
-                  {user.first_name} {user.last_name}
-                </div>
-              </li>
-            ))
-          ) : content ? (
-            content.map((user) => (
-              <li style={{ marginBottom: "1rem" }} key={user.id}>
-                <div>
-                  <img src={user.avatar} alt='' />
-                </div>
-                <div>{user.email}</div>
-                <div>
-                  {user.first_name} {user.last_name}
-                </div>
-              </li>
-            ))
-          ) : (
-            <>
-              <Loader />
-              <Loader />
-              <Loader />
-              <Loader />
-              <Loader />
-            </>
-          )}
-        </ul>
+        {filteredData ? (
+          filteredData.map((user) => <UserCard key={user.id} user={user} />)
+        ) : filteredData === null ? (
+          <div>no search results</div>
+        ) : content ? (
+          content.map((user) => <UserCard key={user.id} user={user} />)
+        ) : (
+          <>
+            <Loader />
+            <Loader />
+            <Loader />
+            <Loader />
+            <Loader />
+          </>
+        )}
       </Container>
     </>
   );
@@ -94,6 +79,7 @@ function App() {
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 
 export default App;
