@@ -23,8 +23,6 @@ function App() {
         .includes(searchKey.toLowerCase())
     );
 
-    setFilteredData(searchResults);
-
     // sets filtered data based on search results
     searchResults.length !== 0
       ? setFilteredData(searchResults)
@@ -41,7 +39,7 @@ function App() {
     setContent(data);
   };
 
-  // prevents infinite loop, calling API only once
+  // prevents infinite loop, calling API function only once
   useEffect(() => {
     callUsers();
   }, []);
@@ -64,6 +62,7 @@ function App() {
           content.map((user) => <UserCard key={user.id} user={user} />)
         ) : (
           <>
+            {/* bunc of loaders for optical illusion */}
             <Loader />
             <Loader />
             <Loader />
