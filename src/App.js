@@ -15,7 +15,7 @@ function App() {
   const [filteredData, setFilteredData] = useState("");
 
   const searchedContent = (searchKey) => {
-    // returns an array of items which includes the search key from the Input field
+    // returns an array of items which includes the search key from the search Input field
     const searchResults = content.filter((user) =>
       // combines first and last name
       `${user.first_name + user.last_name}`
