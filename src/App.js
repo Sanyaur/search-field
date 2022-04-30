@@ -18,7 +18,7 @@ function App() {
     // returns an array of items which includes the search key from the search Input field
     const searchResults = content.filter((user) =>
       // combines first and last name
-      `${user.first_name + user.last_name}`
+      `${user.first_name + " " + user.last_name}`
         .toLowerCase()
         .includes(searchKey.toLowerCase())
     );
@@ -30,13 +30,33 @@ function App() {
   };
 
   const callUsers = async () => {
+    // ----------------- NEW VERSION WITH PROMISE.ALL API CALL -----------------
+    Promise.all([
+      fetch("https://reqres.in/api/users?page=1"),
+      fetch("https://reqres.in/api/users?page=2"),
+    ])
+      .then(async ([aa, bb]) => {
+        const a = await aa.json();
+        const b = await bb.json();
+        return [...a.data, ...b.data];
+      })
+      .then((responseText) => {
+        console.log(responseText);
+        setContent(responseText);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // ----------------- PREVIOUS VERSION WITH SINGLE API CALL -----------------
     // calling API
-    const response = await fetch("https://reqres.in/api/users?page=2");
-    const responseJson = await response.json();
-    const data = await responseJson.data;
+    // const response = await fetch("https://reqres.in/api/users?page=2");
+    // const responseJson = await response.json();
+    // const data = await responseJson.data;
 
     // API DATA set as new state
-    setContent(data);
+    // console.log(data);
+    // setContent(data);
   };
 
   // prevents infinite loop, calling API function only once
